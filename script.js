@@ -1,7 +1,48 @@
+// Destinations database for search functionality
+const destinations = [
+    {
+        name: "Maldives",
+        type: "Beach",
+        description: "Crystal clear waters and overwater bungalows make the Maldives a tropical paradise. Perfect for honeymoons and luxury getaways.",
+        keywords: ["beach", "tropical", "paradise", "honeymoon", "luxury", "overwater", "bungalows", "crystal", "clear", "waters"]
+    },
+    {
+        name: "Santorini, Greece",
+        type: "Beach",
+        description: "Iconic white buildings and stunning sunsets over the Aegean Sea. A perfect blend of beach relaxation and cultural exploration.",
+        keywords: ["beach", "greece", "santorini", "sunset", "white", "buildings", "aegean", "cultural", "relaxation"]
+    },
+    {
+        name: "Angkor Wat, Cambodia",
+        type: "Temple",
+        description: "The world's largest religious monument, showcasing magnificent Khmer architecture and centuries of history.",
+        keywords: ["temple", "cambodia", "angkor", "wat", "religious", "monument", "khmer", "architecture", "history"]
+    },
+    {
+        name: "Kiyomizu-dera, Japan",
+        type: "Temple",
+        description: "A UNESCO World Heritage site offering breathtaking views of Kyoto and traditional Japanese architecture.",
+        keywords: ["temple", "japan", "kyoto", "unesco", "heritage", "traditional", "architecture", "kiyomizu"]
+    },
+    {
+        name: "Italy",
+        type: "Country",
+        description: "From the romantic canals of Venice to the ancient ruins of Rome, Italy offers art, history, and incredible cuisine.",
+        keywords: ["country", "italy", "venice", "rome", "art", "history", "cuisine", "romantic", "canals", "ruins"]
+    },
+    {
+        name: "Japan",
+        type: "Country",
+        description: "Experience the perfect harmony of ancient traditions and modern innovation, from bustling Tokyo to serene temples.",
+        keywords: ["country", "japan", "tokyo", "traditions", "modern", "innovation", "temples", "harmony"]
+    }
+];
+
 // Mobile Navigation Toggle
 document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
+    const searchInput = document.getElementById('searchInput');
     
     if (hamburger && navMenu) {
         hamburger.addEventListener('click', function() {
@@ -17,6 +58,35 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+    
+    // Search input event listeners
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            if (this.value.length > 0) {
+                performSearch();
+            } else {
+                clearSearch();
+            }
+        });
+        
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    }
+    
+    // Close search results when clicking outside
+    document.addEventListener('click', function(e) {
+        const searchResults = document.getElementById('searchResults');
+        const searchContainer = document.querySelector('.search-container');
+        
+        if (searchResults && searchContainer && 
+            !searchContainer.contains(e.target) && 
+            !searchResults.contains(e.target)) {
+            searchResults.classList.remove('active');
+        }
+    });
     
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -81,6 +151,101 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(card);
     });
 });
+
+// Search functionality
+function performSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    const query = searchInput.value.toLowerCase().trim();
+    
+    if (!query) {
+        clearSearch();
+        return;
+    }
+    
+    // Filter destinations based on search query
+    const filteredDestinations = destinations.filter(destination => {
+        return destination.name.toLowerCase().includes(query) ||
+               destination.type.toLowerCase().includes(query) ||
+               destination.description.toLowerCase().includes(query) ||
+               destination.keywords.some(keyword => keyword.toLowerCase().includes(query));
+    });
+    
+    // Display search results
+    displaySearchResults(filteredDestinations, query);
+}
+
+function clearSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    
+    if (searchInput) {
+        searchInput.value = '';
+    }
+    
+    if (searchResults) {
+        searchResults.classList.remove('active');
+        searchResults.innerHTML = '';
+    }
+}
+
+function displaySearchResults(results, query) {
+    const searchResults = document.getElementById('searchResults');
+    
+    if (!searchResults) return;
+    
+    if (results.length === 0) {
+        searchResults.innerHTML = `
+            <div class="no-results">
+                <h4>No destinations found for "${query}"</h4>
+                <p>Try searching for beaches, temples, countries, or specific destination names.</p>
+            </div>
+        `;
+    } else {
+        const resultsHTML = results.map(destination => `
+            <div class="search-result-item" onclick="selectDestination('${destination.name}')">
+                <h4>${destination.name} <span style="color: #667eea; font-size: 0.8em;">(${destination.type})</span></h4>
+                <p>${destination.description}</p>
+            </div>
+        `).join('');
+        
+        searchResults.innerHTML = resultsHTML;
+    }
+    
+    searchResults.classList.add('active');
+}
+
+function selectDestination(destinationName) {
+    // Close search results
+    clearSearch();
+    
+    // If we're not on the home page, redirect to home page
+    if (!window.location.pathname.includes('index.html') && window.location.pathname !== '/') {
+        window.location.href = 'index.html#recommendations';
+        return;
+    }
+    
+    // Scroll to recommendations section
+    scrollToRecommendations();
+    
+    // Highlight the selected destination (optional enhancement)
+    setTimeout(() => {
+        const destinationCards = document.querySelectorAll('.destination-card');
+        destinationCards.forEach(card => {
+            const cardTitle = card.querySelector('h4');
+            if (cardTitle && cardTitle.textContent.includes(destinationName)) {
+                card.style.border = '3px solid #667eea';
+                card.style.boxShadow = '0 0 20px rgba(102, 126, 234, 0.3)';
+                
+                // Remove highlight after 3 seconds
+                setTimeout(() => {
+                    card.style.border = '';
+                    card.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+                }, 3000);
+            }
+        });
+    }, 500);
+}
 
 // Scroll to recommendations section
 function scrollToRecommendations() {
