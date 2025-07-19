@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelWise - Your Ultimate Travel Companion</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>TravelWise</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link active">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contact.html" class="nav-link">Contact Us</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Discover Your Perfect Travel Destination</h1>
+            <p class="hero-intro">
+                Welcome to TravelWise, your ultimate companion for discovering breathtaking destinations around the
+                world.
+                Whether you're seeking pristine beaches, ancient temples, or cultural experiences by country, we provide
+                personalized recommendations to make your travel dreams come true. Let us guide you to unforgettable
+                adventures tailored to your preferences.
+            </p>
+            <button class="cta-button" onclick="scrollToRecommendations()">Explore Destinations</button>
+        </div>
+    </section>
+
+    <!-- Recommendations Section -->
+    <section id="recommendations" class="recommendations">
+        <div class="container">
+            <h2>Featured Destinations</h2>
+
+            <!-- Beach Recommendations -->
+            <div class="recommendation-category">
+                <h3>🏖️ Paradise Beaches</h3>
+                <div class="destination-grid">
+                    <div class="destination-card">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                            alt="Maldives Beach" class="destination-image">
+                        <div class="destination-info">
+                            <h4>Maldives</h4>
+                            <p>Crystal clear waters and overwater bungalows make the Maldives a tropical paradise.
+                                Perfect for honeymoons and luxury getaways.</p>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                            alt="Santorini Beach" class="destination-image">
+                        <div class="destination-info">
+                            <h4>Santorini, Greece</h4>
+                            <p>Iconic white buildings and stunning sunsets over the Aegean Sea. A perfect blend of beach
+                                relaxation and cultural exploration.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Temple Recommendations -->
+            <div class="recommendation-category">
+                <h3>🏛️ Sacred Temples</h3>
+                <div class="destination-grid">
+                    <div class="destination-card">
+                        <img src="https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                            alt="Angkor Wat" class="destination-image">
+                        <div class="destination-info">
+                            <h4>Angkor Wat, Cambodia</h4>
+                            <p>The world's largest religious monument, showcasing magnificent Khmer architecture and
+                                centuries of history.</p>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                            alt="Kiyomizu Temple" class="destination-image">
+                        <div class="destination-info">
+                            <h4>Kiyomizu-dera, Japan</h4>
+                            <p>A UNESCO World Heritage site offering breathtaking views of Kyoto and traditional
+                                Japanese architecture.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Country Recommendations -->
+            <div class="recommendation-category">
+                <h3>🌍 Explore by Country</h3>
+                <div class="destination-grid">
+                    <div class="destination-card">
+                        <img src="https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                            alt="Italy Landscape" class="destination-image">
+                        <div class="destination-info">
+                            <h4>Italy</h4>
+                            <p>From the romantic canals of Venice to the ancient ruins of Rome, Italy offers art,
+                                history, and incredible cuisine.</p>
+                        </div>
+                    </div>
+                    <div class="destination-card">
+                        <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                            alt="Japan Landscape" class="destination-image">
+                        <div class="destination-info">
+                            <h4>Japan</h4>
+                            <p>Experience the perfect harmony of ancient traditions and modern innovation, from bustling
+                                Tokyo to serene temples.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TravelWise by Pratik Chandra Thakur. All rights reserved. | Discover the world with
+                confidence.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
