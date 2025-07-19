@@ -39,17 +39,17 @@ const destinations = [
 ];
 
 // Mobile Navigation Toggle
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     const searchInput = document.getElementById('searchInput');
-    
+
     if (hamburger && navMenu) {
-        hamburger.addEventListener('click', function() {
+        hamburger.addEventListener('click', function () {
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
         });
-        
+
         // Close mobile menu when clicking on a link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
@@ -58,36 +58,54 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-    
+
     // Search input event listeners
     if (searchInput) {
-        searchInput.addEventListener('input', function() {
+        searchInput.addEventListener('input', function () {
             if (this.value.length > 0) {
                 performSearch();
             } else {
                 clearSearch();
             }
         });
-        
-        searchInput.addEventListener('keypress', function(e) {
+
+        searchInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 performSearch();
             }
         });
     }
-    
+
+    // Search button event listener
+    const searchBtn = document.querySelector('.search-btn');
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            performSearch();
+        });
+    }
+
+    // Clear button event listener
+    const clearBtn = document.querySelector('.clear-btn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            clearSearch();
+        });
+    }
+
     // Close search results when clicking outside
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         const searchResults = document.getElementById('searchResults');
         const searchContainer = document.querySelector('.search-container');
-        
-        if (searchResults && searchContainer && 
-            !searchContainer.contains(e.target) && 
+
+        if (searchResults && searchContainer &&
+            !searchContainer.contains(e.target) &&
             !searchResults.contains(e.target)) {
             searchResults.classList.remove('active');
         }
     });
-    
+
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -101,15 +119,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+
     // Contact form handling
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', handleFormSubmit);
     }
-    
+
     // Add scroll effect to navbar
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
         const navbar = document.querySelector('.navbar');
         if (window.scrollY > 100) {
             navbar.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%)';
@@ -119,14 +137,14 @@ document.addEventListener('DOMContentLoaded', function() {
             navbar.style.backdropFilter = 'none';
         }
     });
-    
+
     // Animate destination cards on scroll
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
-    
-    const observer = new IntersectionObserver(function(entries) {
+
+    const observer = new IntersectionObserver(function (entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
@@ -134,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, observerOptions);
-    
+
     // Observe all destination cards
     document.querySelectorAll('.destination-card').forEach(card => {
         card.style.opacity = '0';
@@ -142,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(card);
     });
-    
+
     // Observe value cards on about page
     document.querySelectorAll('.value-card').forEach(card => {
         card.style.opacity = '0';
@@ -157,20 +175,20 @@ function performSearch() {
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
     const query = searchInput.value.toLowerCase().trim();
-    
+
     if (!query) {
         clearSearch();
         return;
     }
-    
+
     // Filter destinations based on search query
     const filteredDestinations = destinations.filter(destination => {
         return destination.name.toLowerCase().includes(query) ||
-               destination.type.toLowerCase().includes(query) ||
-               destination.description.toLowerCase().includes(query) ||
-               destination.keywords.some(keyword => keyword.toLowerCase().includes(query));
+            destination.type.toLowerCase().includes(query) ||
+            destination.description.toLowerCase().includes(query) ||
+            destination.keywords.some(keyword => keyword.toLowerCase().includes(query));
     });
-    
+
     // Display search results
     displaySearchResults(filteredDestinations, query);
 }
@@ -178,11 +196,11 @@ function performSearch() {
 function clearSearch() {
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
-    
+
     if (searchInput) {
         searchInput.value = '';
     }
-    
+
     if (searchResults) {
         searchResults.classList.remove('active');
         searchResults.innerHTML = '';
@@ -191,9 +209,9 @@ function clearSearch() {
 
 function displaySearchResults(results, query) {
     const searchResults = document.getElementById('searchResults');
-    
+
     if (!searchResults) return;
-    
+
     if (results.length === 0) {
         searchResults.innerHTML = `
             <div class="no-results">
@@ -208,26 +226,26 @@ function displaySearchResults(results, query) {
                 <p>${destination.description}</p>
             </div>
         `).join('');
-        
+
         searchResults.innerHTML = resultsHTML;
     }
-    
+
     searchResults.classList.add('active');
 }
 
 function selectDestination(destinationName) {
     // Close search results
     clearSearch();
-    
+
     // If we're not on the home page, redirect to home page
     if (!window.location.pathname.includes('index.html') && window.location.pathname !== '/') {
         window.location.href = 'index.html#recommendations';
         return;
     }
-    
+
     // Scroll to recommendations section
     scrollToRecommendations();
-    
+
     // Highlight the selected destination (optional enhancement)
     setTimeout(() => {
         const destinationCards = document.querySelectorAll('.destination-card');
@@ -236,7 +254,7 @@ function selectDestination(destinationName) {
             if (cardTitle && cardTitle.textContent.includes(destinationName)) {
                 card.style.border = '3px solid #667eea';
                 card.style.boxShadow = '0 0 20px rgba(102, 126, 234, 0.3)';
-                
+
                 // Remove highlight after 3 seconds
                 setTimeout(() => {
                     card.style.border = '';
@@ -261,33 +279,33 @@ function scrollToRecommendations() {
 // Contact form submission handler
 function handleFormSubmit(e) {
     e.preventDefault();
-    
+
     const formData = new FormData(e.target);
     const formMessage = document.getElementById('formMessage');
-    
+
     // Get form values
     const name = formData.get('name');
     const email = formData.get('email');
     const subject = formData.get('subject');
     const message = formData.get('message');
-    
+
     // Basic validation
     if (!name || !email || !subject || !message) {
         showFormMessage('Please fill in all required fields.', 'error');
         return;
     }
-    
+
     if (!isValidEmail(email)) {
         showFormMessage('Please enter a valid email address.', 'error');
         return;
     }
-    
+
     // Simulate form submission
     const submitBtn = document.querySelector('.submit-btn');
     const originalText = submitBtn.textContent;
     submitBtn.textContent = 'Sending...';
     submitBtn.disabled = true;
-    
+
     // Simulate API call delay
     setTimeout(() => {
         showFormMessage('Thank you for your message! We\'ll get back to you within 24 hours.', 'success');
@@ -303,7 +321,7 @@ function showFormMessage(message, type) {
     formMessage.textContent = message;
     formMessage.className = `form-message ${type}`;
     formMessage.style.display = 'block';
-    
+
     // Hide message after 5 seconds
     setTimeout(() => {
         formMessage.style.display = 'none';
@@ -317,33 +335,33 @@ function isValidEmail(email) {
 }
 
 // Add interactive hover effects for destination cards
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const destinationCards = document.querySelectorAll('.destination-card');
-    
+
     destinationCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
+        card.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-10px) scale(1.02)';
         });
-        
-        card.addEventListener('mouseleave', function() {
+
+        card.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0) scale(1)';
         });
     });
 });
 
 // Add loading animation for images
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const images = document.querySelectorAll('img');
-    
+
     images.forEach(img => {
-        img.addEventListener('load', function() {
+        img.addEventListener('load', function () {
             this.style.opacity = '1';
         });
-        
+
         // Set initial opacity
         img.style.opacity = '0';
         img.style.transition = 'opacity 0.3s ease';
-        
+
         // If image is already loaded
         if (img.complete) {
             img.style.opacity = '1';
@@ -352,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Add parallax effect to hero section
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', function () {
     const hero = document.querySelector('.hero');
     if (hero) {
         const scrolled = window.pageYOffset;
@@ -365,7 +383,7 @@ window.addEventListener('scroll', function() {
 function typeWriter(element, text, speed = 100) {
     let i = 0;
     element.innerHTML = '';
-    
+
     function type() {
         if (i < text.length) {
             element.innerHTML += text.charAt(i);
@@ -373,12 +391,12 @@ function typeWriter(element, text, speed = 100) {
             setTimeout(type, speed);
         }
     }
-    
+
     type();
 }
 
 // Initialize typing effect on page load
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const heroTitle = document.querySelector('.hero-content h1');
     if (heroTitle && window.location.pathname.includes('index.html') || window.location.pathname === '/') {
         const originalText = heroTitle.textContent;
